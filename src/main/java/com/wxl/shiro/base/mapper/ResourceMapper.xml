@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxl.shiro.base.mapper.ResourceMapper">
+  <resultMap id="BaseResultMap" type="com.wxl.shiro.base.bo.Resource">
+    <!--@mbg.generated-->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ENABLE_FLAG" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="RESOURCE_NAME" jdbcType="VARCHAR" property="resourceName" />
+    <result column="REQUEST_PATH" jdbcType="VARCHAR" property="requestPath" />
+    <result column="LABEL" jdbcType="VARCHAR" property="label" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="LEAF" jdbcType="VARCHAR" property="leaf" />
+    <result column="RESOURCE_TYPE" jdbcType="VARCHAR" property="resourceType" />
+    <result column="SORT_NO" jdbcType="INTEGER" property="sortNo" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="SYSTEM_CODE" jdbcType="VARCHAR" property="systemCode" />
+    <result column="SERVICE_NAME" jdbcType="VARCHAR" property="serviceName" />
+    <result column="METHOD_NAME" jdbcType="VARCHAR" property="methodName" />
+    <result column="METHOD_PARAM" jdbcType="VARCHAR" property="methodParam" />
+    <result column="DUBBO_VERSION" jdbcType="VARCHAR" property="dubboVersion" />
+    <result column="LOADBALANCE" jdbcType="VARCHAR" property="loadbalance" />
+    <result column="TIMEOUT" jdbcType="INTEGER" property="timeout" />
+    <result column="RETRIES" jdbcType="INTEGER" property="retries" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ID, ENABLE_FLAG, PARENT_ID, RESOURCE_NAME, REQUEST_PATH, `LABEL`, ICON, LEAF,
+    RESOURCE_TYPE, SORT_NO, DESCRIPTION, SYSTEM_CODE, SERVICE_NAME, METHOD_NAME,
+    METHOD_PARAM, DUBBO_VERSION, LOADBALANCE, TIMEOUT, RETRIES
+  </sql>
+
+  <select id="queryByRoleList" resultMap="BaseResultMap">
+    select re.ID, re.ENABLE_FLAG, PARENT_ID, RESOURCE_NAME, REQUEST_PATH, LABEL, ICON, LEAF, RESOURCE_TYPE, SORT_NO, DESCRIPTION, SYSTEM_CODE, SERVICE_NAME, METHOD_NAME, METHOD_PARAM, DUBBO_VERSION, LOADBALANCE, TIMEOUT, RETRIES
+    from sh_resource re , sh_role_resource rr
+    where re.ID = rr.RESOURCE_ID
+    and rr.ROLE_ID in
+    <foreach collection="roleIdList" item="roleId" separator="," open="(" close=")">
+     #{roleId}
+    </foreach>
+  </select>
+
+  <select id="queryAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from sh_resource
+    where LEAF in (3,4) and ENABLE_FLAG = 'YES'
+  </select>
+</mapper>

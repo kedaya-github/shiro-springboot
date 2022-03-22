@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxl.shiro.base.mapper.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.wxl.shiro.base.bo.Company">
+    <!--@mbg.generated-->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ENABLE_FLAG" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="company_no" jdbcType="VARCHAR" property="companyNo" />
+    <result column="boss" jdbcType="VARCHAR" property="boss" />
+    <result column="registered_fund" jdbcType="VARCHAR" property="registeredFund" />
+    <result column="registered_time" jdbcType="TIMESTAMP" property="registeredTime" />
+    <result column="insurance_number" jdbcType="INTEGER" property="insuranceNumber" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ID, ENABLE_FLAG, company_name, address, company_no, boss, registered_fund, registered_time, 
+    insurance_number, `state`
+  </sql>
+</mapper>

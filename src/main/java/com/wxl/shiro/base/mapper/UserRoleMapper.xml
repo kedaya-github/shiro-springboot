@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxl.shiro.base.mapper.UserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.wxl.shiro.base.bo.UserRole">
+    <!--@mbg.generated-->
+    <!--@Table sh_user_role-->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ENABLE_FLAG" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ID, ENABLE_FLAG, USER_ID, ROLE_ID
+  </sql>
+
+  <delete id="deleteByUserId">
+    delete from sh_user_role
+    where USER_ID = #{userId}
+  </delete>
+
+  <delete id="deleteByRoleId">
+    delete from sh_user_role
+    where ROLE_ID = #{roleId}
+  </delete>
+
+  <insert id="batchInsert">
+    insert into sh_user_role (id, enable_flag, user_id, role_id)
+    values
+        <foreach collection="list" item="userRole" separator=",">
+            (
+                #{userRole.id},
+                #{userRole.enableFlag},
+                #{userRole.userId},
+                #{userRole.roleId}
+            )
+        </foreach>
+  </insert>
+
+</mapper>

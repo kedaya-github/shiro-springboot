@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxl.shiro.base.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.wxl.shiro.base.bo.User">
+    <!--@mbg.generated-->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="REAL_NAME" jdbcType="VARCHAR" property="realName" />
+    <result column="NICK_NAME" jdbcType="VARCHAR" property="nickName" />
+    <result column="PASS_WORD" jdbcType="VARCHAR" property="passWord" />
+    <result column="SALT" jdbcType="VARCHAR" property="salt" />
+    <result column="SEX" jdbcType="INTEGER" property="sex" />
+    <result column="ZIPCODE" jdbcType="VARCHAR" property="zipcode" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="MOBIL" jdbcType="VARCHAR" property="mobil" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
+    <result column="SORT_NO" jdbcType="INTEGER" property="sortNo" />
+    <result column="ENABLE_FLAG" jdbcType="VARCHAR" property="enableFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ID, LOGIN_NAME, REAL_NAME, NICK_NAME, PASS_WORD, SALT, SEX, ZIPCODE, ADDRESS, TEL, 
+    MOBIL, EMAIL, DUTIES, SORT_NO, ENABLE_FLAG
+  </sql>
+
+  <select id="queryByUserName" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from sh_user
+    where LOGIN_NAME = #{userName}
+  </select>
+
+  <select id="queryByUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from sh_user
+    where ID = #{userId}
+  </select>
+
+  <update id="updateEnable">
+    update sh_user
+    set ENABLE_FLAG = #{user.enableFlag}
+    where ID = #{user.id}
+  </update>
+
+  <delete id="deleteUser">
+    delete from sh_user
+    where ID = #{userId}
+  </delete>
+
+  <select id="queryByRoleId" resultMap="BaseResultMap">
+    select u.ID, u.LOGIN_NAME, u.REAL_NAME, u.NICK_NAME, u.PASS_WORD, u.SALT, u.SEX,
+    u.ZIPCODE, u.ADDRESS, u.TEL, u.MOBIL, u.EMAIL, u.DUTIES, u.SORT_NO, u.ENABLE_FLAG
+    from sh_user u , sh_user_role ur
+    where u.id = ur.USER_ID and ur.ROLE_ID = #{roleId}
+  </select>
+
+  <select id="queryAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from sh_user
+  </select>
+</mapper>
