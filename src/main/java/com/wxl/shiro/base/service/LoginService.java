@@ -13,4 +13,10 @@ public interface LoginService {
     * @return java.lang.String
     */
     String login(User user);
+
+    /**
+    *  登出
+    * @param token 1
+    */
+    void logout(String token);
 }

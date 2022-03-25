@@ -4,20 +4,14 @@ import com.wxl.shiro.base.support.ShiroFilterSupport;
 import com.wxl.shiro.base.utils.ShiroPathCheckConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.codec.Base64;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisSessionDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.servlet.Filter;
@@ -29,30 +23,30 @@ import java.util.Map;
  * @author Weixl
  * @date 2021/10/14
  */
-@Configuration
+//@Configuration
 @Slf4j
 public class ShiroConfig {
 
-    @Autowired
-    @Lazy
+//    @Autowired
+//    @Lazy
     private RedisSessionDAO redisSessionDAO;
 
-    @Autowired
-    @Lazy
+//    @Autowired
+//    @Lazy
     private RedisCacheManager redisCacheManager;
 
-    @Autowired
-    @Lazy
+//    @Autowired
+//    @Lazy
     private StringRedisTemplate redisTemplate;
 
-    @Autowired
-    @Lazy
+//    @Autowired
+//    @Lazy
     private ShiroFilterSupport shiroFilterSupport;
 
     /**
     *  会话管理器
     */
-    @Bean
+//    @Bean
     public DefaultWebSessionManager getDefaultWebSessionManager() {
         // 使用自定义的WebSessionManager，重写了getSessionId方法, 通过requestHeader中 Token来获取
         DefaultWebSessionManager defaultWebSessionManager = new CustomWebSessionManager();
@@ -72,7 +66,7 @@ public class ShiroConfig {
     /**
      *  核心权限管理器
      */
-    @Bean
+//    @Bean
     public DefaultWebSecurityManager webSecurityManager(UserRealm userRealm , CookieRememberMeManager rememberMeManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // Realm配置缓存
@@ -95,7 +89,7 @@ public class ShiroConfig {
     /**
      *  过滤器拦截链路
      */
-    @Bean
+//    @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         Map<String, String> listMap = shiroFilterSupport.getFilterChain();
@@ -106,7 +100,7 @@ public class ShiroConfig {
     /**
      *  过滤器
      */
-    @Bean
+//    @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(ShiroFilterChainDefinition shiroFilterChainDefinition , DefaultWebSecurityManager securityManager) {
         // 使用默认过滤器
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
@@ -127,7 +121,7 @@ public class ShiroConfig {
     /**
     *  自定义Realm
     */
-    @Bean
+//    @Bean
     public UserRealm userRealm() {
         UserRealm userRealm = new UserRealm();
         // 设置密码校验器
@@ -142,22 +136,22 @@ public class ShiroConfig {
      *  如果要实现记住我自动登录，则前端（默认）判断登陆失效 就默认走正常的登录流程
     * @return CookieRememberMeManager
     */
-    @Bean
-    public CookieRememberMeManager cookieRememberMeManager() {
-        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        SimpleCookie simpleCookie = new SimpleCookie();
-        // 设置过期时间7天
-        simpleCookie.setMaxAge(60 * 60 * 24 * 7);
-        // 设置cookie的key名称
-        simpleCookie.setName("rememberMe");
-        // 设置仅http传输
-        simpleCookie.setHttpOnly(false);
-        simpleCookie.setPath("/");
-        cookieRememberMeManager.setCookie(simpleCookie);
-        //这个地方有点坑，不是所有的base64编码都可以用，长度过大过小都不行，没搞明白，官网给出的要么0x开头十六进制，要么base64
-//        cookieRememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
-        return cookieRememberMeManager;
-    }
+//    @Bean
+//    public CookieRememberMeManager cookieRememberMeManager() {
+//        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+//        SimpleCookie simpleCookie = new SimpleCookie();
+//        // 设置过期时间7天
+//        simpleCookie.setMaxAge(60 * 60 * 24 * 7);
+//        // 设置cookie的key名称
+//        simpleCookie.setName("rememberMe");
+//        // 设置仅http传输
+//        simpleCookie.setHttpOnly(false);
+//        simpleCookie.setPath("/");
+//        cookieRememberMeManager.setCookie(simpleCookie);
+//        //这个地方有点坑，不是所有的base64编码都可以用，长度过大过小都不行，没搞明白，官网给出的要么0x开头十六进制，要么base64
+////        cookieRememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
+//        return cookieRememberMeManager;
+//    }
 
     /**
      * 开启shiro aop注解支持.

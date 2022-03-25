@@ -4,6 +4,8 @@ import com.wxl.shiro.base.api.dto.Result;
 import com.wxl.shiro.base.api.dto.req.user.UserAddReqDTO;
 import com.wxl.shiro.base.bo.User;
 import com.wxl.shiro.base.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.security.auth.Subject;
 import java.util.List;
 
 /**
@@ -20,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -45,6 +49,7 @@ public class UserController {
 
     @GetMapping("/query")
     public Result<List<User>> queryAll() {
+        log.info("登录信息===>{}" , SecurityUtils.getSubject().getPrincipal());
         return Result.ok(userService.queryAll());
     }
 }

@@ -14,6 +14,15 @@ import java.io.Serializable;
 @TableName(value = "sh_user")
 public class User implements Serializable {
     private static final long serialVersionUID = -8422749356997914484L;
+
+    public User(String loginName, String passWord) {
+        this.loginName = loginName;
+        this.passWord = passWord;
+    }
+
+    public User() {
+    }
+
     /**
     * 主键
     */
