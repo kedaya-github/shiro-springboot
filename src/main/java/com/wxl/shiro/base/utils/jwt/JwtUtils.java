@@ -1,5 +1,6 @@
 package com.wxl.shiro.base.utils.jwt;
 
+import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -9,6 +10,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,13 +33,14 @@ public class JwtUtils {
      * 这里为什么要这么做，在controller中进行说明
      * secret 是进行MD5哈希处理后的密令
      */
-    public static String getJwtToken(String username , String password , String secret) {
+    public static String getJwtToken(String username , String password , String secret , List<String> roleLabelList) {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         Algorithm algorithm = Algorithm.HMAC256(secret);    //使用密钥进行哈希
         // 附带用户校验信息 用户名 和 密码 的Token
         return JWT.create()
                 .withClaim("username", username)
                 .withClaim("password", password)
+                .withClaim("role", JSONObject.toJSONString(roleLabelList))
                 .withExpiresAt(date)  //过期时间
                 .sign(algorithm);     //签名算法
     }
@@ -46,13 +49,14 @@ public class JwtUtils {
      * 校验token是否正确 , 密码
      * secret 是 存在数据库中 进行过MD5哈希处理后的密令
      **/
-    public static boolean verifyToken(String token, String username, String password, String secret) {
+    public static boolean verifyToken(String token, String username, String password, String secret, String roleList) {
         try {
             //根据密钥生成JWT效验器
             Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim("username", username)
                     .withClaim("password", password)
+                    .withClaim("role", roleList)
                     .build();
             //效验TOKEN（其实也就是比较两个token是否相同）
             DecodedJWT jwt = verifier.verify(token);

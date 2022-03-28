@@ -11,4 +11,9 @@ public class ShiroPathCheckConstant {
     public static final String AUTHORIZATION_CACHE_PREFIX = "authorizationCache";
 
     public static final String ACCOUNT_LIMIT = "account_limit:";
+
+    /**
+    *  JWT无状态 判断鉴权方式
+    */
+    public static final String JWT_ROLE_FILTER = "role:update:";
 }

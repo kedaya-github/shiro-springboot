@@ -60,7 +60,7 @@ public class JwtShiroFilterSupport {
 //                listMap.put(resource.getServiceName() , "customUser,customCheck,customRole" + roleLabelList.toString());
             }
         });
-        listMap.put("/**" , "jwtCustomUser");
+        listMap.put("/**" , "jwtCustomUser,jwtCustomRole[admin]");
         return listMap;
     }
 

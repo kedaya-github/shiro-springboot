@@ -1,5 +1,6 @@
 package com.wxl.shiro.base.utils.jwt;
 
+import com.wxl.shiro.base.bo.Role;
 import com.wxl.shiro.base.bo.User;
 import com.wxl.shiro.base.mapper.ResourceMapper;
 import com.wxl.shiro.base.mapper.RoleMapper;
@@ -16,7 +17,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Weixl
@@ -73,8 +76,12 @@ public class JwtRealm extends AuthorizingRealm {
         // 3. 将用户的哈希密码进行 RSA对称加密存储到token中
         String rsaUsername = RsaUtils.encryptByPrivateKey(user.getLoginName());
         String rsaPassword = RsaUtils.encryptByPrivateKey(user.getPassWord());
-        // 4. 生成JwtToken , 使用用户 哈希密码 RSA加密后的 密钥作为secret
-        String jwtToken = JwtUtils.getJwtToken(rsaUsername , rsaPassword , user.getPassWord());
+        // 4. 查询用户的角色Role列表 - 角色标识字段 , 整合存储在JwtToken中
+        List<Role> roleList = roleMapper.queryByUserId(user.getId());
+        List<String> roleLabelList = roleList.stream().filter(Objects::nonNull).map(Role::getLabel).collect(Collectors.toList());
+
+        // 5. 生成JwtToken , 使用用户 哈希密码 RSA加密后的 密钥作为secret
+        String jwtToken = JwtUtils.getJwtToken(rsaUsername , rsaPassword , user.getPassWord() , roleLabelList);
         return new SimpleAuthenticationInfo(jwtToken , user.getPassWord() , salt , "jwtRealm");
     }
 

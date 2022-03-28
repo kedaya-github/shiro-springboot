@@ -73,6 +73,12 @@ public class LoginServiceImpl implements LoginService {
     public void logout(String token) {
         // 已经通过了 用户登录校验 , 如何在无状态下 服务器端不存储数据就进行Jwt token 登出
         // 1. 方案一 ： 将此次的Token存储到Redis的失效Token黑名单中,周期一小时
-        redisTemplate.opsForHash().put();
+        try {
+            redisTemplate.opsForValue().set(token + "-logout", "1" , 3600 , TimeUnit.SECONDS);
+            SecurityUtils.getSubject().logout();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("用户登录失败,token==>{}" , token);
+        }
     }
 }

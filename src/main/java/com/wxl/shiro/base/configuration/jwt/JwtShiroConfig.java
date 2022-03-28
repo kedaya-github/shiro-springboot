@@ -1,6 +1,5 @@
 package com.wxl.shiro.base.configuration.jwt;
 
-import com.wxl.shiro.base.configuration.jwt.JwtCustomUserFilter;
 import com.wxl.shiro.base.configuration.shiro.UserRealm;
 import com.wxl.shiro.base.support.JwtShiroFilterSupport;
 import com.wxl.shiro.base.utils.ShiroPathCheckConstant;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -32,6 +32,10 @@ public class JwtShiroConfig {
     @Autowired
     @Lazy
     private JwtShiroFilterSupport shiroFilterSupport;
+
+    @Autowired
+    @Lazy
+    private RedisTemplate redisTemplate;
 
     /**
      *  Jwt - 无状态 核心权限管理器
@@ -119,8 +123,8 @@ public class JwtShiroConfig {
      */
     private Map<String, Filter> getCustomFilter() {
         HashMap<String, Filter> filterList = new LinkedHashMap<>();
-        filterList.put("jwtCustomUser" , new JwtCustomUserFilter());
-        filterList.put("jwtCustomRole" , new JwtCustomRoleFilter());
+        filterList.put("jwtCustomUser" , new JwtCustomUserFilter(redisTemplate));
+        filterList.put("jwtCustomRole" , new JwtCustomRoleFilter(redisTemplate));
         return filterList;
     }
 }

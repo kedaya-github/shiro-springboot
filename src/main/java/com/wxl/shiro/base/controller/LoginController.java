@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Weixl
  * @date 2021/10/14
@@ -41,8 +44,8 @@ public class LoginController {
     }
 
     @PostMapping("/logout")
-    public Result<Void> logout(HttpServerRequest request) {
-        String token = request.getHeader("token");
+    public Result<Void> logout(ServletRequest request) {
+        String token = ((HttpServletRequest)request).getHeader("token");
         loginService.logout(token);
         return Result.ok();
     }
