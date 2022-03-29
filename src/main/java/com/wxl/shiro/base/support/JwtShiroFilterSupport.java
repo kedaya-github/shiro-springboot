@@ -57,10 +57,10 @@ public class JwtShiroFilterSupport {
             }
             if (CollectionUtils.isNotEmpty(roleList)) {
                 List<String> roleLabelList = roleList.stream().map(Role::getLabel).collect(Collectors.toList());
-//                listMap.put(resource.getServiceName() , "customUser,customCheck,customRole" + roleLabelList.toString());
+                listMap.put(resource.getServiceName() , "jwtCustomUser,jwtPathCheck,jwtCustomRole" + roleLabelList.toString());
             }
         });
-        listMap.put("/**" , "jwtCustomUser,jwtCustomRole[admin]");
+        listMap.put("/**" , "jwtCustomUser,jwtPathCheck,jwtCustomRole[admin,SuperAdmin]");
         return listMap;
     }
 
@@ -70,7 +70,7 @@ public class JwtShiroFilterSupport {
     * @return void
     */
     public void updatePathCheck() {
-        log.info("更新url过滤器链路===>{}" , System.currentTimeMillis());
+        log.info("Jwt更新url过滤器链路===>{}" , System.currentTimeMillis());
         // 更新url过滤配置
         synchronized (this) {
             try {

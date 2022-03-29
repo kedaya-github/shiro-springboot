@@ -1,30 +1,27 @@
-package com.wxl.shiro.base.controller;
+package com.wxl.shiro.base.controller.jwt;
 
 import com.wxl.shiro.base.api.dto.Result;
 import com.wxl.shiro.base.api.dto.req.role.SettingResourceReqDTO;
 import com.wxl.shiro.base.api.dto.req.role.SettingUserReqDTO;
 import com.wxl.shiro.base.api.dto.req.user.RoleAddReqDTO;
-import com.wxl.shiro.base.service.RoleService;
+import com.wxl.shiro.base.service.jwt.JwtRoleService;
+import com.wxl.shiro.base.service.shiro.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Weixl
  * @date 2021/10/26
  */
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/jwt/role")
 @Slf4j
-public class RoleController {
+public class JwtRoleController {
 
     @Autowired
-    private RoleService roleService;
+    private JwtRoleService roleService;
 
     @PostMapping("/add")
     public Result<Void> add(@RequestBody @Validated RoleAddReqDTO reqDTO) {

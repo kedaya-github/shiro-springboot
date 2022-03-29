@@ -1,4 +1,4 @@
-package com.wxl.shiro.base.service;
+package com.wxl.shiro.base.service.shiro;
 
 import com.wxl.shiro.base.bo.User;
 

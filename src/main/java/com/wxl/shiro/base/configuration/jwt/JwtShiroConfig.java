@@ -125,6 +125,7 @@ public class JwtShiroConfig {
         HashMap<String, Filter> filterList = new LinkedHashMap<>();
         filterList.put("jwtCustomUser" , new JwtCustomUserFilter(redisTemplate));
         filterList.put("jwtCustomRole" , new JwtCustomRoleFilter(redisTemplate));
+        filterList.put("jwtPathCheck" , new JwtCustomPathCheckFilter());
         return filterList;
     }
 }

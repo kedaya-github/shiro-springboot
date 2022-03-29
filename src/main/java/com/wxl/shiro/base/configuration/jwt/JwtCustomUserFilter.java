@@ -1,5 +1,7 @@
 package com.wxl.shiro.base.configuration.jwt;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.Claim;
 import com.wxl.shiro.base.api.dto.Result;
@@ -16,6 +18,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -55,6 +59,8 @@ public class JwtCustomUserFilter extends UserFilter {
             String username = claims.get("username").asString();
             String password = claims.get("password").asString();
             String roleLabelString = claims.get("role").asString();
+            Long expTime = claims.get("exp").asLong();
+            LocalDateTime expDateTime = DateUtil.date(Long.parseLong(expTime + "000")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             // 使用 username和password ， 使用公钥将密码进行解密 成 MD5哈希数据库中存储的密码
             String decryptPassword = RsaUtils.decryptByPublicKey(password);
             // 使用password进行
@@ -66,14 +72,24 @@ public class JwtCustomUserFilter extends UserFilter {
                 Set<String> keyList = redisTemplate.keys(ShiroPathCheckConstant.JWT_ROLE_FILTER + "*");
                 for (String key : keyList) {
                     if (roleLabelList.contains(key.split(ShiroPathCheckConstant.JWT_ROLE_FILTER)[1])) {
-                        // 登录黑名单让重新登录
-                        redisTemplate.opsForValue().set(token + "-logout", "1" , 3600 , TimeUnit.SECONDS);
-                        return false;
+                        // TODO 在加一层判断 通过倒计时过期时间 进行判断 此次的Token登录的 是否在 进行限制RedisKey之后的
+                        Long redisExpireTime = redisTemplate.opsForValue().getOperations().getExpire(key);
+                        LocalDateTime redisExpireDate = LocalDateTime.now().plusSeconds(redisExpireTime);
+                        // 进行比较 , 如果Redis的超时时间比Token的时间大，说明这个token是在 Redis记录之前进行创建的. 时间都是一小时
+                        if (redisExpireDate.compareTo(expDateTime) >= 0) {
+                            log.info("角色进行变更,限制登录使用....");
+                            // 登录黑名单让重新登录
+                            redisTemplate.opsForValue().set(token + "-logout", "1" , 3600 , TimeUnit.SECONDS);
+                            return false;
+                        }
+
                     }
                 }
+                return true;
             }
-            return true;
+            return false;
         } catch (Exception e) {
+            log.error("错误信息===>" , e);
             return false;
         }
     }

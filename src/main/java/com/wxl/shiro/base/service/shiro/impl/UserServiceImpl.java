@@ -1,4 +1,4 @@
-package com.wxl.shiro.base.service.impl;
+package com.wxl.shiro.base.service.shiro.impl;
 
 import com.wxl.shiro.base.api.dto.req.user.UserAddReqDTO;
 import com.wxl.shiro.base.bo.User;
@@ -6,7 +6,7 @@ import com.wxl.shiro.base.bo.UserRole;
 import com.wxl.shiro.base.exception.CamAirException;
 import com.wxl.shiro.base.mapper.UserMapper;
 import com.wxl.shiro.base.mapper.UserRoleMapper;
-import com.wxl.shiro.base.service.UserService;
+import com.wxl.shiro.base.service.shiro.UserService;
 import com.wxl.shiro.base.support.ShiroFilterSupport;
 import com.wxl.shiro.base.utils.SequenceGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;

@@ -5,6 +5,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,5 +42,10 @@ public class Test {
         String decrypt1 = RsaUtils.decryptByPrivateKey(encrypt1, Base64.getEncoder().encodeToString(aPrivate.getEncoded()));
         System.out.println("私钥解密字符串：" + decrypt1);
         // 公钥解密字符串：Aa111111
+    }
+
+    @org.junit.Test
+    public void test2() {
+        System.out.println(new Date(Long.parseLong("1648537502000")));
     }
 }

@@ -1,4 +1,4 @@
-package com.wxl.shiro.base.service.impl;
+package com.wxl.shiro.base.service.shiro.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wxl.shiro.base.api.dto.req.role.SettingResourceReqDTO;
@@ -13,7 +13,7 @@ import com.wxl.shiro.base.mapper.RoleMapper;
 import com.wxl.shiro.base.mapper.RoleResourceMapper;
 import com.wxl.shiro.base.mapper.UserMapper;
 import com.wxl.shiro.base.mapper.UserRoleMapper;
-import com.wxl.shiro.base.service.RoleService;
+import com.wxl.shiro.base.service.shiro.RoleService;
 import com.wxl.shiro.base.support.ShiroFilterSupport;
 import com.wxl.shiro.base.utils.SequenceGenerator;
 import com.wxl.shiro.base.utils.ShiroPathCheckConstant;

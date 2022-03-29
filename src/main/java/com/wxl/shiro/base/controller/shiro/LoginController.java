@@ -1,9 +1,8 @@
-package com.wxl.shiro.base.controller;
+package com.wxl.shiro.base.controller.shiro;
 
-import cn.hutool.http.server.HttpServerRequest;
 import com.wxl.shiro.base.api.dto.Result;
 import com.wxl.shiro.base.bo.User;
-import com.wxl.shiro.base.service.LoginService;
+import com.wxl.shiro.base.service.shiro.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;

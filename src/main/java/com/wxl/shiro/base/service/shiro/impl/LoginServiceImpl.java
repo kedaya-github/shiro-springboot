@@ -1,9 +1,8 @@
-package com.wxl.shiro.base.service.impl;
+package com.wxl.shiro.base.service.shiro.impl;
 
 import com.wxl.shiro.base.bo.User;
-import com.wxl.shiro.base.service.LoginService;
+import com.wxl.shiro.base.service.shiro.LoginService;
 import com.wxl.shiro.base.sys.UserLoginToken;
-import com.wxl.shiro.base.utils.ShiroPathCheckConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;

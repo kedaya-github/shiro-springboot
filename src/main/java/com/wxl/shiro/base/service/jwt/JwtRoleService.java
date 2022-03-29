@@ -1,4 +1,4 @@
-package com.wxl.shiro.base.service;
+package com.wxl.shiro.base.service.jwt;
 
 import com.wxl.shiro.base.api.dto.req.role.SettingResourceReqDTO;
 import com.wxl.shiro.base.api.dto.req.role.SettingUserReqDTO;
@@ -8,7 +8,7 @@ import com.wxl.shiro.base.api.dto.req.user.RoleAddReqDTO;
  * @author Weixl
  * @date 2021/10/26
  */
-public interface RoleService {
+public interface JwtRoleService {
     /**
     *  添加
     * @param reqDTO 1
