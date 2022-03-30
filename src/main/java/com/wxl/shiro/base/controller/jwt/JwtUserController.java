@@ -3,7 +3,7 @@ package com.wxl.shiro.base.controller.jwt;
 import com.wxl.shiro.base.api.dto.Result;
 import com.wxl.shiro.base.api.dto.req.user.UserAddReqDTO;
 import com.wxl.shiro.base.bo.User;
-import com.wxl.shiro.base.service.shiro.UserService;
+import com.wxl.shiro.base.service.jwt.JwtUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.List;
 public class JwtUserController {
 
     @Autowired
-    private UserService userService;
+    private JwtUserService userService;
 
     @PostMapping("/add")
     public Result<Void> save(@RequestBody UserAddReqDTO reqDTO) {
